@@ -13,4 +13,13 @@ before_install:
 script:
     - docker run --rm -v ${PWD}:/build circleci/android:api-28-ndk bash -c "cd /build; ./gradlew assembleDebug check"
 
-
+deploy:
+  provider: releases
+  api_key:
+    secure: ${token}
+  file: app/build/outputs/apk/app-release.apk
+  # 这句手动添加
+  skip_cleanup: true
+  on:
+    repo: jaskonzoho/shadowsocks-android
+    tag: true
